@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafePlace · Емоційна підтримка</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/chat.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <script>
+        (function() {
+            const isAnalytics = window.location.pathname.includes('analytics');
+            if (isAnalytics) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                const saved = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const theme = saved || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            document.documentElement.style.visibility = 'hidden';
+        })();
+    </script>
+</head>
+<body>
+  <div class="chat-container">
+    <!-- Sidebar для зареєстрованих користувачів -->
+    <div class="sidebar" id="sidebar" style="display: none;">
+      <div class="sidebar-header">
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">U</div>
+          <div class="user-details">
+            <h3 id="userName">Користувач</h3>
+            <p id="userEmail">email@example.com</p>
+          </div>
+        </div>
+        <button class="new-chat-btn" id="newChatBtn">
+          <i class="fas fa-plus"></i> Новий чат
+        </button>
+      </div>
+      <div class="chats-list" id="chatsList">
+        <!-- Список чатів буде додаватись тут -->
+      </div>
+      
+      <div class="analytics-section">
+        <h4>📊 Ваша аналітика</h4>
+        <div id="quickInsights" style="font-size: 0.8rem; color: #718096;">
+          Завантаження...
+        </div>
+        <button onclick="window.open('analytics.html', '_blank')" 
+                style="width: 100%; margin-top: 10px; padding: 8px; background: #edf2f7; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
+          Детальніша аналітика
+        </button>
+      </div>
+    </div>
+    
+    <!-- Основна область чату -->
+    <div class="chat-main">
+      <div class="chat-header">
+        <h1><i class="fas fa-heart"></i> SafePlace</h1>
+        <p><span class="status-indicator"></span>Простір для емоційної підтримки та розмов по душі</p>
+        <div class="chat-controls">
+          <button class="clear-chat-btn" id="clearChatBtn" title="Очистити чат">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="emergency-banner" id="emergencyBanner">
+        <i class="fas fa-exclamation-circle"></i> КРИТИЧНА СИТУАЦІЯ — негайно зверніться за допомогою: Лінія довіри <strong>5522</strong> або <strong>0 800 100 102</strong>
+      </div>
+      
+      <!-- Попередження для анонімних користувачів -->
+      <div class="anonymous-warning" id="anonymousWarning" style="display: none;">
+        <i class="fas fa-info-circle"></i> Ви не увійшли в акаунт. Історія чату не зберігатиметься.
+      </div>
+      
+      <div class="messages-container" id="messagesContainer">
+        <div class="message bot">
+          <div class="avatar">S</div>
+          <div class="message-content">
+            <div>Привіт! Я твій віртуальний супутник у складні моменти. Моя роль — надати тобі емоційну підтримку, вислухати без осуду та допомогти знайти внутрішні ресурси для подолання труднощів.</div>
+            <div class="message-time">Зараз</div>
+          </div>
+        </div>
+        
+        <div class="typing-indicator" id="typingIndicator">
+          <span></span>
+          <span></span>
+          <span></span>
+          Я думаю над відповіддю...
+        </div>
+      </div>
+      
+      <div class="input-container">
+        <input 
+          type="text" 
+          id="userInput" 
+          placeholder="Напишіть, що вас турбує..." 
+          autocomplete="off"
+        >
+        <button id="sendButton">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+      
+      <div class="warning-message">
+        У критичних ситуаціях звертайтеся за фаховою допомогою: 
+        <span class="critical-contact">Кризова допомога 5522</span> або 
+        <span class="critical-contact">0 800 100 102</span> (цілодобово, безкоштовно)
+      </div>
+    </div>
+  </div>
+
+  <script src="js/theme.js"></script>
+  <script src="js/chat.js"></script>
+</body>
+</html>

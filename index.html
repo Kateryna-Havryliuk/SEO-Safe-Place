@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Safe Place — Психологічна підтримка</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/style.css">
+      <script>
+        (function() {
+            const isAnalytics = window.location.pathname.includes('analytics');
+            if (isAnalytics) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                const saved = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const theme = saved || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            document.documentElement.style.visibility = 'hidden';
+        })();
+    </script>
+  
+  <style>
+    /* Стилі для фільтрації технік */
+    .technique-card {
+      transition: all 0.3s ease;
+    }
+    
+    /* Приховування карток технік при фільтрації */
+    .technique-card.hidden {
+      display: none;
+    }
+    
+    /* Стиль для активної кнопки фільтра */
+    .filter-btn.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    /* Стилі для розділу екстреної допомоги */
+    .emergency {
+      background: linear-gradient(135deg, #fff5f5 0%, #f0f8ff 100%);
+      padding: 4rem 0;
+      position: relative;
+    }
+    
+    /* Верхня лінія-градієнт для розділу */
+    .emergency::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #e74c3c, #3498db, #2ecc71);
+    }
+    
+    /* Сітка для карток екстреної допомоги */
+    .emergency-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    /* Базова картка екстреної допомоги */
+    .emergency-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      border-left: 6px solid var(--accent-color);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      height: fit-content;
+    }
+    
+    /* Верхня лінія картки */
+    .emergency-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--accent-color);
+    }
+    
+    /* Ефект при наведенні на картку */
+    .emergency-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    }
+    
+    /* Стилі для термінової картки (червона) */
+    .emergency-card.urgent {
+      border-left-color: #e74c3c;
+      background: linear-gradient(135deg, #fff, #fff5f5);
+      border: 2px solid #ffeaea;
+    }
+    
+    .emergency-card.urgent::before {
+      background: linear-gradient(90deg, #e74c3c, #ff6b6b);
+    }
+    
+    /* Стилі для медичної картки (синя) */
+    .emergency-card.medical {
+      border-left-color: #3498db;
+      background: linear-gradient(135deg, #fff, #f0f8ff);
+      border: 2px solid #e1f0ff;
+    }
+    
+    .emergency-card.medical::before {
+      background: linear-gradient(90deg, #3498db, #5dade2);
+    }
+    
+    /* Стилі для онлайн картки (зелена) */
+    .emergency-card.online {
+      border-left-color: #2ecc71;
+      background: linear-gradient(135deg, #fff, #f0fff4);
+      border: 2px solid #e8f6ef;
+    }
+    
+    .emergency-card.online::before {
+      background: linear-gradient(90deg, #2ecc71, #58d68d);
+    }
+    
+    /* Заголовок картки */
+    .emergency-card h3 {
+      margin-top: 0;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    
+    /* Кольори заголовків для різних типів карток */
+    .emergency-card.urgent h3 {
+      color: #e74c3c;
+    }
+    
+    .emergency-card.medical h3 {
+      color: #2980b9;
+    }
+    
+    .emergency-card.online h3 {
+      color: #27ae60;
+    }
+    
+    /* Стилі для іконок карток */
+    .emergency-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    
+    /* Кольори іконок для різних типів карток */
+    .urgent .emergency-icon {
+      background: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+    }
+    
+    .medical .emergency-icon {
+      background: rgba(52, 152, 219, 0.1);
+      color: #2980b9;
+    }
+    
+    .online .emergency-icon {
+      background: rgba(46, 204, 113, 0.1);
+      color: #27ae60;
+    }
+    
+    /* Текст картки */
+    .emergency-card p {
+      color: #666;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+    
+    /* Секція контактів всередині картки */
+    .emergency-contacts {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 2px dashed #e9ecef;
+    }
+    
+    /* Окремий контактний елемент */
+    .contact-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      background: #f8f9fa;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      gap: 0.75rem;
+    }
+    
+    /* Ефект при наведенні на контакт */
+    .contact-item:hover {
+      background: #e9ecef;
+    }
+    
+    /* Інформація про контакт */
+    .contact-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    /* Назва контакту */
+    .contact-name {
+      font-weight: 500;
+      color: #2c3e50;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    /* Номер телефону */
+    .contact-number {
+      font-weight: 700;
+      color: var(--primary-color);
+      font-size: 1rem;
+    }
+    
+    /* Кнопка виклику */
+    .contact-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    
+    /* Ефект при наведенні на кнопку */
+    .contact-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+    
+    /* Стилі для неактивної кнопки */
+    .contact-btn:disabled {
+      background: #95a5a6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .contact-btn:disabled:hover {
+      background: #95a5a6;
+      transform: none;
+    }
+    
+    /* Кольори кнопок для різних типів карток */
+    .urgent .contact-btn {
+      background: #e74c3c;
+    }
+    
+    .urgent .contact-btn:hover {
+      background: #c0392b;
+    }
+    
+    .medical .contact-btn {
+      background: #3498db;
+    }
+    
+    .medical .contact-btn:hover {
+      background: #2980b9;
+    }
+    
+    /* Стилі для розділу з порадами */
+    .emergency-tips {
+      margin-top: 3rem;
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    }
+    
+    .emergency-tips h3 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    
+    /* Сітка для порад */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    
+    /* Окрема порада */
+    .tip-item {
+      background: #f8f9fa;
+      padding: 1.25rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .tip-item:hover {
+      background: #e9ecef;
+    }
+    
+    /* Іконка поради */
+    .tip-icon {
+      background: var(--primary-color);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+    
+    /* Вміст поради */
+    .tip-content {
+      flex: 1;
+    }
+    
+    .tip-content strong {
+      color: #2c3e50;
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 1rem;
+    }
+    
+    /* CTA секція */
+    .emergency-cta {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 2.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Затемнення фону для CTA */
+    .emergency-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.1);
+    }
+    
+    .emergency-cta h3 {
+      color: white;
+      margin-bottom: 1rem;
+      font-size: 1.6rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .emergency-cta p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .emergency-cta .btn-primary {
+      background: white;
+      color: #667eea;
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+      border-radius: 50px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    .emergency-cta .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+    }
+    
+    /* Адаптивність для мобільних пристроїв */
+    @media (max-width: 768px) {
+      .emergency-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .emergency-card {
+        padding: 1.25rem;
+      }
+      
+      .contact-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+      }
+      
+      .contact-info {
+        width: 100%;
+      }
+      
+      .emergency-tips {
+        padding: 1.5rem;
+        margin-top: 2rem;
+      }
+      
+      .tips-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .emergency-cta {
+        padding: 2rem 1.5rem;
+        margin-top: 2rem;
+      }
+      
+      .emergency-cta h3 {
+        font-size: 1.3rem;
+      }
+      
+      .emergency-cta p {
+        font-size: 1rem;
+      }
+    }
+
+    /* ====== MODAL ====== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: var(--shadow-hover);
+  transform: translateY(20px);
+  transition: var(--transition);
+}
+
+.modal-overlay.active .modal {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.modal-title {
+  font-size: 24px;
+  color: var(--brand-dark);
+  margin: 0;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.auth-tabs {
+  display: flex;
+  margin-bottom: 25px;
+  border-bottom: 1px solid var(--ring);
+}
+
+.auth-tab {
+  padding: 12px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+  transition: var(--transition);
+}
+
+.auth-tab.active {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
+}
+
+.auth-form {
+  display: none;
+}
+
+.auth-form.active {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--ring);
+  border-radius: 8px;
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(43, 108, 176, 0.2);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.form-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.form-options a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.form-options a:hover {
+  text-decoration: underline;
+}
+
+.modal-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--brand);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.modal-btn:hover {
+  background: var(--brand-dark);
+}
+
+.modal-btn:disabled {
+  background: var(--muted);
+  cursor: not-allowed;
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.form-footer a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
+
+.warning-box{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#f8f9fc;
+  border-left:5px solid #4a90e2;  
+  color:#444;
+  padding:15px 20px;
+  border-radius:6px;
+  font-size:15px;
+  line-height:1.45;
+  margin:17px auto 0;
+  margin-bottom:0px auto 0;
+  max-width:680px;
+}
+.warning-box i{font-size:20px;color:#4a90e2;}
+  </style>
+</head>
+
+<!-- ====== MOBILE MENU ====== -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <div class="brand">
+      <div class="logo">🪷</div>
+      <span>Safe Place</span>
+    </div>
+    <button class="close-mobile-menu" id="closeMobileMenu">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <nav class="mobile-nav-links">
+    <a href="index.html" class="mobile-nav-link">Головна</a>
+    <a href="chat.html" class="mobile-nav-link">Поговорити</a>
+    <a href="index.html#techniques" class="mobile-nav-link">Техніки</a>
+    <a href="blog.html" class="mobile-nav-link">Блог</a>
+    <a href="about.html" class="mobile-nav-link">Про нас</a>
+    <a href="contact.html" class="mobile-nav-link">Контакти</a>
+    <a href="index.html#emergency" class="mobile-nav-link">Екстрена допомога</a>
+  </nav>
+    
+
+  <div class="mobile-auth-buttons">
+    <button class="btn-login mobile-btn" id="mobileLoginBtn">Увійти</button>
+    <button class="btn-register mobile-btn" id="mobileRegisterBtn">Реєстрація</button>
+  </div>
+</div>
+<body>
+  <!-- ====== HEADER ====== -->
+  <header class="site-header">
+    <div class="container header-content">
+      <div class="brand">
+        <div class="logo">🪷</div>
+        <span>Safe Place</span>
+      </div>
+      
+      <nav class="nav-links">
+        <a href="index.html">Головна</a>
+        <a href="chat.html">Поговорити</a>
+        <a href="index.html#techniques">Техніки</a>
+        <a href="blog.html">Блог</a>
+        <a href="about.html">Про нас</a>
+        <a href="contact.html">Контакти</a>
+        <a href="index.html#emergency">Екстрена допомога</a>
+      </nav>
+      
+      <div class="auth-buttons" id="authButtons">
+        <button class="btn-login" id="loginBtn">Увійти</button>
+        <button class="btn-register" id="registerBtn">Реєстрація</button>
+      </div>
+      
+      <div class="burger-menu" id="burgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== HERO SECTION ====== -->
+  <section class="hero" id="talk">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">Будь ласка, поговоріть зі мною…</h1>
+        <p class="hero-subtitle">Я тут, щоб чути <strong>ВАС</strong>.</p>
+        
+        <div class="talk-box">
+          <div class="hint">
+            <i class="fas fa-lightbulb"></i>
+            <span>Порада: не вибачайся за свої почуття — вони важливі 💛</span>
+          </div>
+          
+          <div class="input-group">
+            <input type="text" class="message-input" id="initialMessage" placeholder="Поділися тим, що турбує…">
+            <button class="send-btn" id="sendInitialBtn">SEND</button>
+          </div>
+          
+          <p class="send-note">Після натискання <em>SEND</em> вас буде переведено до чату з відповіддю.</p>
+        </div>
+      </div>
+      
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop" alt="Тепла дорога серед поля під блакитним небом">
+      </div>
+    </div>
+  </section>
+
+<!-- ====== TECHNIQUES SECTION ====== -->
+<section class="techniques" id="techniques">
+  <div class="container">
+    <h2 class="section-title">Техніки самодопомоги</h2>
+    <p class="section-subtitle">Оберіть техніку, яка найкраще підходить для вашого стану</p>
+    
+    <div class="techniques-filter">
+      <button class="filter-btn active" data-filter="all">Всі техніки</button>
+      <button class="filter-btn" data-filter="relaxation">Релаксація</button>
+      <button class="filter-btn" data-filter="emotional">Емоції</button>
+      <button class="filter-btn" data-filter="cognitive">Мислення</button>
+      <button class="filter-btn" data-filter="quick">Швидка допомога</button>
+    </div>
+    
+    <div class="techniques-grid">
+      <!-- Relaxation Techniques -->
+      <div class="technique-card" data-category="relaxation">
+        <div class="technique-icon">
+          <i class="fas fa-wind"></i>
+        </div>
+        <h3>Дихальні техніки</h3>
+        <div class="technique-content">
+          <h4>4-7-8 Дихання</h4>
+          <p>4 сек - вдих, 7 сек - затримка, 8 сек - повільний видих</p>
+          <div class="technique-steps">
+            <div class="step">1. Зручно сість</div>
+            <div class="step">2. Вдихнути на 4 рахунки</div>
+            <div class="step">3. Затримати на 7 рахунків</div>
+            <div class="step">4. Повільно видихнути на 8</div>
+          </div>
+        </div>
+        <div class="technique-tags">
+          <span class="tag">Тривога</span>
+          <span class="tag">Стрес</span>
+          <span class="tag">5 хв</span>
+        </div>
+      </div>
+
+      <div class="technique-card" data-category="relaxation">
+        <div class="technique-icon">
+          <i class="fas fa-spa"></i>
+        </div>
+        <h3>Прогресивна релаксація</h3>
+        <div class="technique-content">
+          <p>Напружте та розслабте м'язи по групах</p>
+          <div class="technique-steps">
+            <div class="step">1. Руки - напружити на 5 сек</div>
+            <div class="step">2. Плечі - підняти до вух</div>
+            <div class="step">3. Обличчя - наморщити</div>
+            <div class="step">4. Розслабити все тіло</div>
+          </div>
+        </div>
+        <div class="technique-tags">
+          <span class="tag">Напруга</span>
+          <span class="tag">Сон</span>
+          <span class="tag">10 хв</span>
+        </div>
+      </div>
+
+      <!-- Emotional Techniques -->
+      <div class="technique-card" data-category="emotional">
+        <div class="technique-icon">
+          <i class="fas fa-heart"></i>
+        </div>
+        <h3>Журнал емоцій</h3>
+        <div class="technique-content">
+          <p>Записуйте що відчуваєте та аналізуйте</p>
+          <div class="technique-steps">
+            <div class="step">1. Яка емоція? (злість, страх, радість)</div>
+            <div class="step">2. Яка інтенсивність? (1-10)</div>
+            <div class="step">3. Що викликало емоцію?</div>
+            <div class="step">4. Як реагувало тіло?</div>
+          </div>
+        </div>
+        <div class="technique-tags">
+          <span class="tag">Емоції</span>
+          <span class="tag">Аналіз</span>
+          <span class="tag">15 хв</span>
+        </div>
+      </div>
+
+      <div class="technique-card" data-category="emotional">
+        <div class="technique-icon">
+          <i class="fas fa-cloud-sun"></i>
+        </div>
+        <h3>Візуалізація</h3>
+        <div class="technique-content">
+          <p>Уявіть себе в безпечному та спокійному місці</p>
+          <div class="technique-steps">
+            <div class="step">1. Закрийте очі</div>
+            <div class="step">2. Уявіть улюблене місце</div>
+            <div class="step">3. Додайте деталі: звуки, запахи</div>
+            <div class="step">4. Відчуйте спокій та безпеку</div>
+          </div>
+        </div>
+        <div class="technique-tags">
+          <span class="tag">Тривога</span>
+          <span class="tag">Відпочинок</span>
+          <span class="tag">7 хв</span>
+        </div>
+      </div>
+
+      <!-- Cognitive Techniques -->
+      <div class="technique-card" data-category="cognitive">
+        <div class="technique-icon">
+          <i class="fas fa-brain"></i>
+        </div>
+        <h3>Коло впливу</h3>
+        <div class="technique-content">
+          <p>Зосередьтесь на тому, що можете змінити</p>
+          <div class="technique-steps">
+            <div class="step">1. Складіть список проблем</div>
+            <div class="step">2. Розділіть на: що можу змінити</div>
+            <div class="step">3. Що не можу змінити</div>
+            <div class="step">4. Зосередьтесь на першій групі</div>
+          </div>
+        </div>
+        <div class="technique-tags">
+          <span class="tag">Контроль</span>
+          <span class="tag">Фокус</span>
+          <span class="tag">10 хв</span>
+        </div>
+      </div>
+
+      <div class="technique-card" data-category="cognitive">
+        <div class="technique-icon">
+          <i class="fas fa-exchange-alt"></i>
+        </div>
+        <h3>Рефреймінг</h3>
+        <div class="technique-content">
+          <p>Подивіться на ситуацію з іншого боку</p>
+          <div class="technique-steps">
+            <div class="step">1. Запишіть негативну думку</div>
+            <div class="step">2. Знайдіть 3 альтернативні погляди</div>
+            <div class="step">3. Які факти підтверджують новий погляд?</div>
+            <div class="step">4. Як би порадив другові?</div>
+          </div>
+        </div>
+        <div class="technique-tags">
+          <span class="tag">Мислення</span>
+          <span class="tag">Перспектива</span>
+          <span class="tag">12 хв</span>
+        </div>
+      </div>
+
+      <!-- Quick Help Techniques -->
+      <div class="technique-card" data-category="quick">
+        <div class="technique-icon">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <h3>5-4-3-2-1</h3>
+        <div class="technique-content">
+          <p>Техніка заземлення для моменту "зараз"</p>
+          <div class="technique-steps">
+            <div class="step">1. 5 речей, які бачите</div>
+            <div class="step">2. 4 речей, які відчуваєте</div>
+            <div class="step">3. 3 речей, які чуєте</div>
+            <div class="step">4. 2 речей, які відчуваєте нюхом</div>
+            <div class="step">5. 1 річ, яку можете скуштувати</div>
+          </div>
+        </div>
+        <div class="technique-tags">
+          <span class="tag">Паніка</span>
+          <span class="tag">Засновництво</span>
+          <span class="tag">3 хв</span>
+        </div>
+      </div>
+
+      <div class="technique-card" data-category="quick">
+        <div class="technique-icon">
+          <i class="fas fa-stopwatch"></i>
+        </div>
+        <h3>Техніка СТОП</h3>
+        <div class="technique-content">
+          <p>Швидке втручання при стресовій ситуації</p>
+          <div class="technique-steps">
+            <div class="step"><strong>С</strong> - зупиніться</div>
+            <div class="step"><strong>Т</strong> - дихайте глибоко</div>
+            <div class="step"><strong>О</strong> - оцініть ситуацію</div>
+            <div class="step"><strong>П</strong> - продовжуйте обдумано</div>
+          </div>
+        </div>
+        <div class="technique-tags">
+          <span class="tag">Стрес</span>
+          <span class="tag">Мить</span>
+          <span class="tag">2 хв</span>
+        </div>
+      </div>
+
+      <div class="technique-card" data-category="quick">
+        <div class="technique-icon">
+          <i class="fas fa-tint"></i>
+        </div>
+        <h3>Холодна вода</h3>
+        <div class="technique-content">
+          <p>Активація парасимпатичної нервової системи</p>
+          <div class="technique-steps">
+            <div class="step">1. Умийтеся холодною водою</div>
+            <div class="step">2. Тримайте зап'ястя під холодною водою</div>
+            <div class="step">3. Випийте склянку холодної води</div>
+            <div class="step">4. Зосередьтесь на відчуттях</div>
+          </div>
+        </div>
+        <div class="technique-tags">
+          <span class="tag">Паніка</span>
+          <span class="tag">Фізіологія</span>
+          <span class="tag">5 хв</span>
+        </div>
+      </div>
+
+      <div class="technique-card" data-category="quick">
+        <div class="technique-icon">
+          <i class="fas fa-music"></i>
+        </div>
+        <h3>Музикотерапія</h3>
+        <div class="technique-content">
+          <p>Вплив музики на емоційний стан</p>
+          <div class="technique-steps">
+            <div class="step">1. Виберіть улюблену пісню</div>
+            <div class="step">2. Слухайте уважно 3-4 хвилини</div>
+            <div class="step">3. Зосередьтесь на тексті та мелодії</div>
+            <div class="step">4. Відчуйте зміни в настрої</div>
+          </div>
+        </div>
+        <div class="technique-tags">
+          <span class="tag">Настрій</span>
+          <span class="tag">Розслаблення</span>
+          <span class="tag">5 хв</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="techniques-cta">
+      <h3>Потрібна допомога з вибором техніки?</h3>
+      <p>Наш AI-помічник може підібрати техніку спеціально для вашого стану</p>
+      <button class="btn-primary" onclick="window.open('chat.html', '_blank')">
+        <i class="fas fa-robot"></i>
+        Обрати техніку з AI
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ====== EMERGENCY HELP SECTION ====== -->
+<section class="emergency" id="emergency">
+  <div class="container">
+    <h2 class="section-title">Екстрена допомога</h2>
+    <p class="section-subtitle">Якщо ви відчуваєте гостру кризу або потребуєте негайної підтримки</p>
+    
+    <div class="emergency-grid">
+      <div class="emergency-card urgent">
+        <div class="emergency-icon">
+          <i class="fas fa-phone-alt"></i>
+        </div>
+        <h3>Телефони довіри</h3>
+        <p>Безкоштовна психологічна допомога цілодобово. Фахівці готові вислухати та підтримати вас у складну хвилину.</p>
+        
+        <div class="emergency-contacts">
+          <div class="contact-item">
+            <div class="contact-info">
+              <div class="contact-name">Лінія довіри</div>
+              <div class="contact-number">0 800 500 225</div>
+            </div>
+            <button class="contact-btn" onclick="window.open(/*'tel:0800500225'*/)">
+              <i class="fas fa-phone"></i>
+              Виклик
+            </button>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-info">
+              <div class="contact-name">Кризова допомога</div>
+              <div class="contact-number">5522</div>
+            </div>
+            <button class="contact-btn" onclick="window.open(/*'tel:5522'*/)">
+              <i class="fas fa-phone"></i>
+              Виклик
+            </button>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-info">
+              <div class="contact-name">Екстрена психологічна допомога</div>
+              <div class="contact-number">0-800-100-102</div>
+            </div>
+            <button class="contact-btn" onclick="window.open(/*'tel:0800100102'*/)">
+              <i class="fas fa-phone"></i>
+              Виклик
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="emergency-card medical">
+        <div class="emergency-icon">
+          <i class="fas fa-ambulance"></i>
+        </div>
+        <h3>Екстрені служби</h3>
+        <p>У випадку безпосередньої загрози життю або здоров'ю. Не вагайтеся звертатися за медичною допомогою.</p>
+        
+        <div class="emergency-contacts">
+          <div class="contact-item">
+            <div class="contact-info">
+              <div class="contact-name">Швидка допомога</div>
+              <div class="contact-number">103</div>
+            </div>
+            <button class="contact-btn" onclick="window.open(/*'tel:103'*/)">
+              <i class="fas fa-ambulance"></i>
+              Виклик
+            </button>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-info">
+              <div class="contact-name">Екстрена служба</div>
+              <div class="contact-number">112</div>
+            </div>
+            <button class="contact-btn" onclick="window.open(/*'tel:112'*/)">
+              <i class="fas fa-phone"></i>
+              Виклик
+            </button>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-info">
+              <div class="contact-name">Психіатрична допомога</div>
+              <div class="contact-number">0-800-503-310</div>
+            </div>
+            <button class="contact-btn" onclick="window.open(/*'tel:0800503310'*/)">
+              <i class="fas fa-user-md"></i>
+              Виклик
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="emergency-card online">
+        <div class="emergency-icon">
+          <i class="fas fa-comments"></i>
+        </div>
+        <h3>Онлайн-підтримка</h3>
+        <p>Безкоштовні чат-боти та консультації онлайн. Анонімно, конфіденційно, доступно 24/7.</p>
+        
+        <div class="emergency-contacts">
+          <div class="contact-item">
+            <div class="contact-info">
+              <div class="contact-name">Чат з психологом</div>
+              <div class="contact-number">Online 24/7</div>
+            </div>
+            <button class="contact-btn" onclick="window.open('chat.html', '_blank')">
+              <i class="fas fa-comment-medical"></i>
+              Перейти
+            </button>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-info">
+              <div class="contact-name">Кризовий чат</div>
+              <div class="contact-number">Telegram: @safeplace_bot</div>
+            </div>
+            <button class="contact-btn" disabled onclick="window.open('https://t.me/safeplace_bot', '_blank')">
+              <i class="fab fa-telegram"></i>
+              Скоро
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="emergency-tips">
+      <h3>
+        <i class="fas fa-life-ring"></i>
+        Що робити в гострій кризовій ситуації
+      </h3>
+      
+      <div class="tips-grid">
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-user-friends"></i>
+          </div>
+          <div class="tip-content">
+            <strong>Не залишайтесь наодинці</strong>
+            Знайдіть когось, з ким можете поговорити, навіть по телефону. Соціальна підтримка важлива.
+          </div>
+        </div>
+        
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div class="tip-content">
+            <strong>Забезпечте свою безпеку</strong>
+            Віддаліть від себе потенційно небезпечні предмети. Знайдіть безпечне місце.
+          </div>
+        </div>
+        
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="tip-content">
+            <strong>Дайте собі час</strong>
+            Почуття змінюються. Пообіцяйте собі почекати хоча б 1 годину перед будь-якими діями.
+          </div>
+        </div>
+        
+        <div class="tip-item">
+          <div class="tip-icon">
+            <i class="fas fa-heartbeat"></i>
+          </div>
+          <div class="tip-content">
+            <strong>Зосередьтесь на диханні</strong>
+            Глибокі повільні вдихи допоможуть відновити контроль над тілом та емоціями.
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="emergency-cta">
+      <h3>Пам'ятайте: звертатися по допомогу - це сила, а не слабкість</h3>
+      <p>Фахівці готові допомогти вам пройти через складні моменти. Ви не самотні.</p>
+      <button class="btn-primary" onclick="window.open('chat.html', '_blank')">
+        <i class="fas fa-comment-medical"></i>
+        Поговорити зараз
+      </button>
+    </div>
+  </div>
+</section>
+
+  <!-- ====== BLOG SECTION ====== -->
+  <section class="blog" id="blog">
+    <div class="container">
+      <h2 class="section-title">Корисні матеріали та статті</h2>
+      
+      <div class="blog-grid">
+        <article class="blog-card">
+          <div class="blog-image">
+            <img src="https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?q=80&w=800&auto=format&fit=crop" alt="Людина пише щоденник">
+          </div>
+          <div class="blog-content">
+            <span class="blog-date"><i class="far fa-calendar"></i> 15 вересня 2025</span>
+            <h3 class="blog-title">Як говорити про почуття без «мені незручно»</h3>
+            <p class="blog-excerpt">Простий шаблон з 3 кроків: факт → почуття → прохання. Навчись висловлювати свої емоції без страху чи сорому.</p>
+            <a href="#" class="read-more">Читати далі <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+        
+        <article class="blog-card">
+          <div class="blog-image">
+            <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?q=80&w=800&auto=format&fit=crop" alt="Людина спить">
+          </div>
+          <div class="blog-content">
+            <span class="blog-date"><i class="far fa-calendar"></i> 28 жовтня 2025</span>
+            <h3 class="blog-title">Сон і тривога: цикл, який можна розірвати</h3>
+            <p class="blog-excerpt">М'які ритуали перед сном, що реально працюють. Як покращити якість сну та зменшити нічні тривоги.</p>
+            <a href="#" class="read-more">Читати далі <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-image">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop" alt="Людина медитує">
+          </div>
+          <div class="blog-content">
+            <span class="blog-date"><i class="far fa-calendar"></i> 10 листопада 2025</span>
+            <h3 class="blog-title">Медитація для початківців: 5 простих кроків</h3>
+            <p class="blog-excerpt">Не потрібно годинами сидіти в позі лотоса. Почніть з 5 хвилин на день та відчуйте різницю.</p>
+            <a href="#" class="read-more">Читати далі <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-image">
+            <img src="https://images.unsplash.com/photo-1532634993-15f421e42ec0?q=80&w=800&auto=format&fit=crop" alt="Людина на природі">
+          </div>
+          <div class="blog-content">
+            <span class="blog-date"><i class="far fa-calendar"></i> 5 грудня 2025</span>
+            <h3 class="blog-title">Природа як ліки: як зелені зони впливають на ментальне здоров'я</h3>
+            <p class="blog-excerpt">Наукові докази того, як прогулянки в парку можуть знизити рівень стресу на 30%.</p>
+            <a href="#" class="read-more">Читати далі <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+      </div>
+
+      <div class="blog-cta">
+        <h3>Бажаєте більше корисних матеріалів?</h3>
+        <p>Підпишіться на нашу розсилку та отримуйте нові статті щотижня</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Ваш email" class="newsletter-input">
+          <button class="btn-register">Підписатися</button>
+        </div>
+      </div>
+    </div>
+  </section>
+     
+  <div class="warning-box">
+    <i class="fas fa-info-circle" aria-hidden="true"></i>
+    <span>Safe Place НЕ замінює лікаря! У критичному стані, будь ласка, зверніться до професіонала та/або телефонуйте за екстеними контактами!</span>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer" id="about">
+    <div class="container footer-content">
+      <div class="footer-text">
+        © 2026 Safe Place · З любов'ю і турботою
+      </div>
+      <div class="social-icons">
+        <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- JavaScript Files -->
+<script src="js/theme.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+    // Фільтрація технік
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const techniqueCards = document.querySelectorAll('.technique-card');
+      
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          const filterValue = this.getAttribute('data-filter');
+          
+          techniqueCards.forEach(card => {
+            if (filterValue === 'all') {
+              card.classList.remove('hidden');
+            } else {
+              if (card.getAttribute('data-category') === filterValue) {
+                card.classList.remove('hidden');
+              } else {
+                card.classList.add('hidden');
+              }
+            }
+          });
+        });
+      });
+    });
+</script>
+
+
+
+  <!-- ====== MODAL FOR AUTH ====== -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modalTitle">Увійти в акаунт</h3>
+      <button class="modal-close" id="modalClose">&times;</button>
+    </div>
+    
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-tab="login">Увійти</div>
+      <div class="auth-tab" data-tab="register">Реєстрація</div>
+    </div>
+    
+    <form class="auth-form active" id="loginForm">
+      <div class="form-group">
+        <label for="loginEmail">Електронна пошта</label>
+        <input type="email" id="loginEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Пароль</label>
+        <input type="password" id="loginPassword" required>
+      </div>
+      <div class="form-options">
+        <label>
+          <input type="checkbox" id="rememberMe">
+          Запам'ятати мене
+        </label>
+        <a href="#">Забули пароль?</a>
+      </div>
+      <button type="submit" class="modal-btn" id="loginSubmitBtn">Увійти</button>
+      <div class="form-footer">
+        Немає акаунта? <a href="#" id="switchToRegister">Зареєструватися</a>
+      </div>
+    </form>
+    
+    <form class="auth-form" id="registerForm">
+      <div class="form-group">
+        <label for="registerName">Ім'я</label>
+        <input type="text" id="registerName" required>
+      </div>
+      <div class="form-group">
+        <label for="registerEmail">Електронна пошта</label>
+        <input type="email" id="registerEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="registerPassword">Пароль</label>
+        <input type="password" id="registerPassword" required minlength="6">
+      </div>
+      <div class="form-group">
+        <label for="registerConfirm">Підтвердження пароля</label>
+        <input type="password" id="registerConfirm" required>
+      </div>
+      <div class="form-options">
+        <label>
+          <input type="checkbox" id="agreeTerms" required>
+          Я погоджуюсь з умовами використання
+        </label>
+      </div>
+      <button type="submit" class="modal-btn" id="registerSubmitBtn">Зареєструватися</button>
+      <div class="form-footer">
+        Вже є акаунт? <a href="#" id="switchToLogin">Увійти</a>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="mobile-overlay" id="mobileOverlay"></div>
+</body>
+</html>

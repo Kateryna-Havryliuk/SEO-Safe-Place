@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мій акаунт - Safe Place</title>
+    
+    <!-- Підключення бібліотек -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Власні CSS файли -->
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/account.css">
+    <script>
+        (function() {
+            const isAnalytics = window.location.pathname.includes('analytics');
+            if (isAnalytics) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                const saved = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const theme = saved || (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            document.documentElement.style.visibility = 'hidden';
+        })();
+    </script>
+
+    
+</head>
+<body>
+    <div class="account-container">
+        <!-- Header -->
+        <header class="account-header">
+            <div class="container">
+                <div class="header-content">
+                    <!-- Кнопка повернення на головну -->
+                    <a href="index.html" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        На головну
+                    </a>
+                    <div class="brand">
+                        <div class="logo">🪷</div>
+                        <span>Safe Place</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="account-main">
+            <div class="container">
+                <div class="account-content">
+                    <!-- Login Prompt - показується неавторизованим користувачам -->
+                    <div class="login-prompt" id="loginPrompt">
+                        <div class="prompt-content">
+                            <div class="prompt-icon">
+                                <i class="fas fa-user-lock"></i>
+                            </div>
+                            <h2>Доступ до акаунту</h2>
+                            <p>Увійдіть або зареєструйтеся, щоб керувати своїм профілем</p>
+                            <div class="auth-buttons">
+                                <button class="btn-login" onclick="openAuthModal('login')">Увійти</button>
+                                <button class="btn-register" onclick="openAuthModal('register')">Реєстрація</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Content - показується авторизованим користувачам -->
+                    <div class="account-details" id="accountDetails" style="display: none;">
+                        <!-- Заголовок профілю -->
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <div class="avatar-large" id="userAvatarLarge">U</div>
+                                <button class="edit-avatar-btn" title="Змінити аватар">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                                <div class="avatar-overlay">
+                                    <i class="fas fa-camera text-white"></i>
+                                </div>
+                            </div>
+                            <div class="profile-info">
+                                <h1 id="userNameDisplay">Ім'я Користувача</h1>
+                                <p id="userEmailDisplay">email@example.com</p>
+                                <div class="member-since">
+                                    <i class="fas fa-calendar"></i>
+                                    Учасник з <span id="joinDate">грудня 2025</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Статистика акаунта -->
+                        <div class="account-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="totalMessagesStat">0</div>
+                                    <div class="stat-label">Повідомлень</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="sessionCount">0</div>
+                                    <div class="stat-label">Сесій</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-number" id="wellnessScore">0%</div>
+                                    <div class="stat-label">Благополуччя</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Секції налаштувань -->
+                        <div class="account-sections">
+                            <!-- Налаштування профілю -->
+                            <section class="account-section">
+                                <h3><i class="fas fa-user-cog"></i> Налаштування профілю</h3>
+                                <div class="section-content">
+                                    <div class="form-group">
+                                        <label for="profileName">Ім'я</label>
+                                        <input type="text" id="profileName" class="profile-input">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profileEmail">Email</label>
+                                        <input type="email" id="profileEmail" class="profile-input" disabled>
+                                    </div>
+                                    <button class="btn-primary" id="updateProfileBtn">
+                                        <i class="fas fa-save"></i>
+                                        Оновити профіль
+                                    </button>
+                                </div>
+                            </section>
+
+                            <!-- Налаштування конфіденційності -->
+                            <section class="account-section">
+                                <h3><i class="fas fa-shield-alt"></i> Конфіденційність</h3>
+                                <div class="section-content">
+                                    <div class="privacy-option">
+                                        <label class="toggle-label">
+                                            <input type="checkbox" id="analyticsTracking" checked>
+                                            <span class="toggle-slider"></span>
+                                            <span class="toggle-text">Надсилати анонімну статистику для покращення сервісу</span>
+                                        </label>
+                                    </div>
+                                    <div class="privacy-option">
+                                        <label class="toggle-label">
+                                            <input type="checkbox" id="saveChatHistory" checked>
+                                            <span class="toggle-slider"></span>
+                                            <span class="toggle-text">Зберігати історію чатів</span>
+                                        </label>
+                                    </div>
+                                    <div class="privacy-note">
+                                        <i class="fas fa-info-circle"></i>
+                                        Ваші дані захищені та не передаються третім особам
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Швидкі дії -->
+                            <section class="account-section">
+                                <h3><i class="fas fa-bolt"></i> Швидкі дії</h3>
+                                <div class="section-content">
+                                    <div class="quick-actions">
+                                        <button class="action-btn" onclick="window.open('chat.html', '_blank')">
+                                            <i class="fas fa-comment-dots"></i>
+                                            Новий чат
+                                        </button>
+                                        <button class="action-btn" onclick="window.open('analytics.html', '_blank')">
+                                            <i class="fas fa-chart-bar"></i>
+                                            Моя аналітика
+                                        </button>
+                                        <button class="action-btn" onclick="exportData()">
+                                            <i class="fas fa-download"></i>
+                                            Експорт даних
+                                        </button>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- Небезпечна зона -->
+                            <section class="account-section danger-zone">
+                                <h3><i class="fas fa-exclamation-triangle"></i> Небезпечна зона</h3>
+                                <div class="section-content">
+                                    <div class="danger-actions">
+                                        <button class="btn-danger" id="clearHistoryBtn">
+                                            <i class="fas fa-trash"></i>
+                                            Очистити історію чатів
+                                        </button>
+                                        <button class="btn-danger" id="deleteAccountBtn">
+                                            <i class="fas fa-user-slash"></i>
+                                            Видалити акаунт
+                                        </button>
+                                    </div>
+                                    <div class="danger-note">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        Ці дії незворотні. Будьте обережні.
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Auth Modal - модальне вікно для авторизації -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Увійти в акаунт</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            
+            <!-- Вкладки для перемикання між входом і реєстрацією -->
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Увійти</div>
+                <div class="auth-tab" data-tab="register">Реєстрація</div>
+            </div>
+            
+            <!-- Форма входу -->
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Електронна пошта</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Пароль</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox" id="rememberMe">
+                        Запам'ятати мене
+                    </label>
+                    <a href="#">Забули пароль?</a>
+                </div>
+                <button type="submit" class="modal-btn" id="loginSubmitBtn">Увійти</button>
+                <div class="form-footer">
+                    Немає акаунта? <a href="#" id="switchToRegister">Зареєструватися</a>
+                </div>
+            </form>
+            
+            <!-- Форма реєстрації -->
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Ім'я</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Електронна пошта</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Пароль</label>
+                    <input type="password" id="registerPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirm">Підтвердження пароля</label>
+                    <input type="password" id="registerConfirm" required>
+                </div>
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox" id="agreeTerms" required>
+                        Я погоджуюсь з умовами використання
+                    </label>
+                </div>
+                <button type="submit" class="modal-btn" id="registerSubmitBtn">Зареєструватися</button>
+                <div class="form-footer">
+                    Вже є акаунт? <a href="#" id="switchToLogin">Увійти</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/theme.js"></script>
+    <script src="js/account.js"></script>
+
+    <script>
+        // Перевірка завантаження сторінки
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Account page loaded successfully');
+            
+            // Примусово застосуємо тему з localStorage
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        });
+    </script>
+    
+</body>
+</html>

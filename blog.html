@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- ДУБЛЬОВАНИЙ TITLE — помилка! -->
+  <title>Safe Place — Психологічна підтримка</title>
+  <meta name="description" content="Блог про ментальне здоров'я та самодопомогу">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  
+  <style>
+    .nav-links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .nav-links a { font-size: 0.9rem; padding: 0.5rem; white-space: nowrap; }
+    
+    .blog-hero { padding: 3rem 0; background: #f8f9fa; text-align: center; }
+    .blog-categories { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+    .category-btn { padding: 0.6rem 1.2rem; border: 2px solid #667eea; background: white; color: #667eea; border-radius: 25px; cursor: pointer; transition: all 0.3s; }
+    .category-btn:hover, .category-btn.active { background: #667eea; color: white; }
+    .blog-grid-full { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; padding: 2rem 0; }
+    .blog-card-full { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
+    .blog-card-full:hover { transform: translateY(-5px); }
+    .blog-card-image { height: 200px; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+    .blog-card-content { padding: 1.5rem; }
+    .blog-meta { display: flex; gap: 1rem; color: #666; font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .blog-tag { background: #edf2f7; color: #667eea; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem; }
+    .pagination { display: flex; justify-content: center; gap: 0.5rem; margin: 2rem 0; }
+    .page-btn { padding: 0.5rem 1rem; border: 1px solid #ddd; background: white; cursor: pointer; border-radius: 8px; }
+    .page-btn.active { background: #667eea; color: white; border-color: #667eea; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <div class="brand">
+        <div class="logo">🪷</div>
+        <span>Safe Place</span>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Головна</a>
+        <a href="chat.html">Поговорити</a>
+        <a href="blog.html">Блог</a>
+        <a href="about.html">Про нас</a>
+        <a href="contact.html">Контакти</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="blog-hero">
+    <div class="container">
+      <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Блог про ментальне здоров'я</h1>
+      <p style="color: #666; font-size: 1.1rem;">Корисні матеріали про самодопомогу, емоційний інтелект та психологічну підтримку</p>
+      
+      <div class="blog-categories">
+        <button class="category-btn active">Всі статті</button>
+        <button class="category-btn">Тривога</button>
+        <button class="category-btn">Стрес</button>
+        <button class="category-btn">Саморозвиток</button>
+        <button class="category-btn">Відносини</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="blog-grid-full">
+      <article class="blog-card-full">
+        <div class="blog-card-image">🧘</div>
+        <div class="blog-card-content">
+          <div class="blog-meta">
+            <span><i class="far fa-calendar"></i> 15 січня 2026</span>
+            <span class="blog-tag">Тривога</span>
+          </div>
+          <h3>10 технік для зменшення тривоги за 5 хвилин</h3>
+          <p>Швидкі методи, які допоможуть заспокоїтися прямо зараз: дихальні вправи, заземлення та візуалізація...</p>
+          <a href="article.html" style="color: #667eea; font-weight: 600;">Читати далі →</a>
+        </div>
+      </article>
+
+      <article class="blog-card-full">
+        <div class="blog-card-image">😴</div>
+        <div class="blog-card-content">
+          <div class="blog-meta">
+            <span><i class="far fa-calendar"></i> 10 січня 2026</span>
+            <span class="blog-tag">Сон</span>
+          </div>
+          <h3>Як покращити сон при стресі та тривозі</h3>
+          <p>Ритуали перед сном, оптимальна температура та техніки релаксації для глибокого відпочинку...</p>
+          <a href="#" style="color: #667eea; font-weight: 600;">Читати далі →</a>
+        </div>
+      </article>
+
+      <article class="blog-card-full">
+        <div class="blog-card-image">💬</div>
+        <div class="blog-card-content">
+          <div class="blog-meta">
+            <span><i class="far fa-calendar"></i> 5 січня 2025</span>
+            <span class="blog-tag">Відносини</span>
+          </div>
+          <h3>Як говорити про почуття з близькими</h3>
+          <p>Шаблон "Я-повідомлення" та інструменти ефективного спілкування в стосунках...</p>
+          <a href="#" style="color: #667eea; font-weight: 600;">Читати далі →</a>
+        </div>
+      </article>
+
+      <article class="blog-card-full">
+        <div class="blog-card-image">🎯</div>
+        <div class="blog-card-content">
+          <div class="blog-meta">
+            <span><i class="far fa-calendar"></i> 28 грудня 2024</span>
+            <span class="blog-tag">Саморозвиток</span>
+          </div>
+          <h3>Цілі чи намір: що працює краще для ментального здоров'я</h3>
+          <p>Чому фокус на процесі важливіший за результат та як це зменшує вигорання...</p>
+          <a href="#" style="color: #667eea; font-weight: 600;">Читати далі →</a>
+        </div>
+      </article>
+
+      <article class="blog-card-full">
+        <div class="blog-card-image">🌱</div>
+        <div class="blog-card-content">
+          <div class="blog-meta">
+            <span><i class="far fa-calendar"></i> 20 грудня 2024</span>
+            <span class="blog-tag">Саморозвиток</span>
+          </div>
+          <h3>Самокомпасія: навіщо бути добрішим до себе</h3>
+          <p>Чому самокритика не працює та як розвинути внутрішню підтримку...</p>
+          <a href="#" style="color: #667eea; font-weight: 600;">Читати далі →</a>
+        </div>
+      </article>
+
+      <article class="blog-card-full">
+        <div class="blog-card-image">⚡</div>
+        <div class="blog-card-content">
+          <div class="blog-meta">
+            <span><i class="far fa-calendar"></i> 15 грудня 2024</span>
+            <span class="blog-tag">Стрес</span>
+          </div>
+          <h3>Вигорання: ранні ознаки та профілактика</h3>
+          <p>Як розпізнати вигорання на початковій стадії та що робити для відновлення...</p>
+          <a href="#" style="color: #667eea; font-weight: 600;">Читати далі →</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="pagination">
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">→</button>
+    </div>
+  </section>
+
+  <footer class="footer" style="margin-top: 3rem;">
+    <div class="container footer-content">
+      <div class="footer-text">© 2026 Safe Place · Блог про ментальне здоров'я</div>
+    </div>
+  </footer>
+</body>
+</html>

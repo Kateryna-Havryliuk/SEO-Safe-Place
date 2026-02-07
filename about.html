@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Про Safe Place — Психологічна підтримка</title>
+  <!-- Навмисно немає description — помилка! -->
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  
+  <style>
+    /* Компактне меню */
+    .nav-links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .nav-links a { font-size: 0.9rem; padding: 0.5rem; white-space: nowrap; }
+    
+    .about-hero { padding: 4rem 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; }
+    .about-hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+    .mission-section { padding: 4rem 0; background: #f8f9fa; }
+    .mission-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+    .mission-card { background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; }
+    .mission-card i { font-size: 3rem; color: #667eea; margin-bottom: 1rem; }
+    .team-section { padding: 4rem 0; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
+    .team-card { text-align: center; padding: 1.5rem; }
+    .team-avatar { width: 120px; height: 120px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white; }
+    .stats-section { background: #2d3748; color: white; padding: 3rem 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center; }
+    .stat-number { font-size: 3rem; font-weight: 800; color: #667eea; }
+    
+    /* Бите посилання — сховане але доступне для бота */
+    .hidden-link { opacity: 0; position: absolute; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <div class="brand">
+        <div class="logo">🪷</div>
+        <span>Safe Place</span>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Головна</a>
+        <a href="chat.html">Поговорити</a>
+        <a href="blog.html">Блог</a>
+        <a href="about.html">Про нас</a>
+        <a href="contact.html">Контакти</a>
+        <a href="team.html" class="hidden-link">Команда</a> <!-- БИТЕ ПОСИЛАННЯ! -->
+      </nav>
+    </div>
+  </header>
+
+  <section class="about-hero">
+    <div class="container">
+      <h1>Ми тут, щоб підтримати вас</h1>
+      <p style="font-size: 1.3rem; opacity: 0.9;">Safe Place створено з вірою в те, що кожен заслуговує на безпечний простір для своїх емоцій</p>
+    </div>
+  </section>
+
+  <section class="mission-section">
+    <div class="container">
+      <h2 class="section-title" style="text-align: center;">Наша місія та цінності</h2>
+      <div class="mission-grid">
+        <div class="mission-card">
+          <i class="fas fa-heart"></i>
+          <h3>Емпатія</h3>
+          <p>Ми слухаємо без осуду та підтримуємо кожного, хто звертається. Ваші почуття важливі та мають значення.</p>
+        </div>
+        <div class="mission-card">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Безпека</h3>
+          <p>Конфіденційність — наш пріоритет. Всі розмови захищені, а дані не передаються третім особам.</p>
+        </div>
+        <div class="mission-card">
+          <i class="fas fa-clock"></i>
+          <h3>Доступність</h3>
+          <p>Підтримка 24/7, безкоштовно та без реєстрації. AI-помічник завжди поруч, коли вам важко.</p>
+        </div>
+        <div class="mission-card">
+          <i class="fas fa-users"></i>
+          <h3>Спільнота</h3>
+          <p>Ми будуємо спільноту людей, які підтримують одне одного та діляться досвідом подолання труднощів.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div>
+          <div class="stat-number">50K+</div>
+          <p>Розмов проведено</p>
+        </div>
+        <div>
+          <div class="stat-number">10K+</div>
+          <p>Користувачів</p>
+        </div>
+        <div>
+          <div class="stat-number">4.8</div>
+          <p>Середня оцінка</p>
+        </div>
+        <div>
+          <div class="stat-number">24/7</div>
+          <p>Доступність</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <div class="container">
+      <h2 class="section-title" style="text-align: center;">Наша команда</h2>
+      <p style="text-align: center; color: #666; margin-bottom: 2rem;">Професіонали, які створюють Safe Place</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">👩‍💼</div>
+          <h3>Олена Коваль</h3>
+          <p style="color: #667eea; font-weight: 600;">Засновниця</p>
+          <p style="color: #666; font-size: 0.9rem;">Психологиня з 10-річним досвідом, вірить в силу емпатичного слухання</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👨‍💻</div>
+          <h3>Андрій Шевченко</h3>
+          <p style="color: #667eea; font-weight: 600;">Технічний директор</p>
+          <p style="color: #666; font-size: 0.9rem;">Створює безпечний технологічний простір для підтримки</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩‍⚕️</div>
+          <h3>Марія Петренко</h3>
+          <p style="color: #667eea; font-weight: 600;">Кризовий психолог</p>
+          <p style="color: #666; font-size: 0.9rem;">Консультує та навчає команду роботі з кризовими ситуаціями</p>
+        </div>
+      </div>
+      <!-- БИТЕ ПОСИЛАННЯ в тексті -->
+      <p style="text-align: center; margin-top: 2rem;">
+        <a href="team.html" style="color: #667eea;">Переглянути всю команду →</a>
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-text">© 2026 Safe Place · З любов'ю і турботою</div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-telegram"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
